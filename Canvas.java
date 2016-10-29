@@ -17,30 +17,13 @@ public class Canvas
     private JFrame frame;
     private CanvasPane canvas;
     private Graphics2D graphic;
+   
     private Color backgroundColor;
     private Image canvasImage;
+    
 
-    /**
-     * Create a Canvas with default height, width and background color 
-     * (300, 300, white).
-     * @param title  title to appear in Canvas Frame     
-     */
-    public Canvas(String title)
-    {
-        this(title, 300, 300, Color.white);
-    }
-
-    /**
-     * Create a Canvas with default background color (white).
-     * @param title  title to appear in Canvas Frame
-     * @param width  the desired width for the canvas
-     * @param height  the desired height for the canvas
-     */
-    public Canvas(String title, int width, int height)
-    {
-        this(title, width, height, Color.white);
-    }
-
+    
+    
     /**
      * Create a Canvas.
      * @param title  title to appear in Canvas Frame
@@ -81,7 +64,7 @@ public class Canvas
         }
         frame.setVisible(true);
     }
-
+    
     /**
      * Provide information on visibility of the Canvas.
      * @return  true if canvas is visible, false otherwise
@@ -90,17 +73,14 @@ public class Canvas
     {
         return frame.isVisible();
     }
-
-    /**
-     * Draw the outline of a given shape onto the canvas.
-     * @param  shape  the shape object to be drawn on the canvas
-     */
-    public void draw(Shape shape)
+ 
+    
+     public void draw(Shape shape)
     {
         graphic.draw(shape);
         canvas.repaint();
     }
- 
+    
     /**
      * Fill the internal dimensions of a given shape with the current 
      * foreground color of the canvas.
@@ -111,7 +91,7 @@ public class Canvas
         graphic.fill(shape);
         canvas.repaint();
     }
-
+    
     /**
      * Fill the internal dimensions of the given circle with the current 
      * foreground color of the canvas.
@@ -278,6 +258,7 @@ public class Canvas
         graphic.setBackground(newColor);
     }
 
+ 
     /**
      * Returns the current color of the background
      * @return   the color of the background of the Canvas 
@@ -328,6 +309,7 @@ public class Canvas
      */
     public Dimension getSize()
     {
+        
         return canvas.getSize();
     }
 

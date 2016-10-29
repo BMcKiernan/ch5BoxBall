@@ -20,7 +20,7 @@ public class BouncingBall
 {
     private static final int GRAVITY = 3;  // effect of gravity
 
-    private int ballDegradation = 2;
+    private int ballDegradation = 4;
     private Ellipse2D.Double circle;
     private Color color;
     private int diameter;
