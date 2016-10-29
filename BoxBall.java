@@ -22,10 +22,12 @@ public class BoxBall
     private final int leftWall;
     private final int rightWall;
     private Canvas canvas;
-    private double ySpeed=5;
-    private double xSpeed=5;
-    private Random ballPosition = new Random();
-    
+    private double ySpeed;
+    private double xSpeed;
+    private Random ballSpeed = new Random();
+    private Random speedNegOrPos = new Random();
+    private boolean negative;
+    private boolean positive;
     
 
     /**
@@ -36,12 +38,15 @@ public class BoxBall
        diameter = ballDiameter;
        xPosition = xPos;
        yPosition = yPos;
-       leftWall = 0;
+       leftWall = 10;
        rightWall = width;
        bottomWall = height;
-       topWall = 0;
+       topWall = 10;
        color = ballColor;
        canvas = drawingCanvas;
+       negative = false;
+       positive = false;
+       randomSpeed();
 
     }
     
@@ -52,6 +57,26 @@ public class BoxBall
     {
         canvas.setForegroundColor(color);
         canvas.fillCircle(xPosition, yPosition, diameter);
+    }
+    
+    private void randomSpeed()
+    {
+        int speed=0;
+        int posNeg;
+        posNeg = speedNegOrPos.nextInt(2);
+        if(posNeg==1)
+        {
+            speed -= ballSpeed.nextInt(7)+1;
+            negative=true;
+        }
+        else
+        {
+            speed += ballSpeed.nextInt(7)+1;
+            positive=true;
+        }
+          
+        xSpeed=speed;
+        ySpeed=speed;
     }
     
     /**
@@ -71,23 +96,50 @@ public class BoxBall
         // remove from canvas at the current position
         erase();
         // compute new position
-        yPosition += ySpeed;
-        xPosition += xSpeed;
-        // check if it has hit the ground
-         if (xPosition < leftWall) {
-            xSpeed = -xSpeed;
+        if(positive==true)
+        {
+            yPosition += ySpeed;
+            xPosition += xSpeed;
+            // check if it has hit the ground
+            
+             if (xPosition < leftWall) {
+                xSpeed = -xSpeed;
+            }
+            
+            if (xPosition > rightWall-diameter) {
+                xSpeed = -xSpeed;
+            }
+            
+            if (yPosition < topWall) {
+                ySpeed = -ySpeed;
+            }
+            
+            if (yPosition > bottomWall-diameter ) {
+                ySpeed = -ySpeed;
+            }
         }
         
-        if (xPosition > rightWall-diameter) {
-            xSpeed = -xSpeed;
-        }
-        
-        if (yPosition < topWall) {
-            ySpeed = -ySpeed;
-        }
-        
-        if (yPosition > bottomWall-diameter ) {
-            ySpeed = -ySpeed;
+        if(negative==true)
+        {
+            yPosition -= ySpeed;
+            xPosition -= xSpeed;
+            // check if it has hit the ground
+            
+             if (xPosition < leftWall) {
+                xSpeed = +xSpeed;
+            }
+            
+            if (xPosition > rightWall-diameter) {
+                xSpeed = +xSpeed;
+            }
+            
+            if (yPosition < topWall) {
+                ySpeed = +ySpeed;
+            }
+            
+            if (yPosition > bottomWall-diameter ) {
+                ySpeed = +ySpeed;
+            }
         }
         // draw again at new position
         draw();
