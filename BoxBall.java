@@ -28,7 +28,7 @@ public class BoxBall
     private Random speedNegOrPos = new Random();
     private boolean negative;
     private boolean positive;
-    
+   
 
     /**
      * Constructor for objects of class BoxBall
@@ -37,11 +37,13 @@ public class BoxBall
     {
        diameter = ballDiameter;
        xPosition = xPos;
+       
        yPosition = yPos;
-       leftWall = 10;
+       
+       leftWall = 2;
        rightWall = width;
        bottomWall = height;
-       topWall = 10;
+       topWall = 2;
        color = ballColor;
        canvas = drawingCanvas;
        negative = false;
@@ -49,6 +51,8 @@ public class BoxBall
        randomSpeed();
 
     }
+    
+    
     
     /**
      * Draw this ball at its current position onto the canvas.
@@ -120,6 +124,7 @@ public class BoxBall
             
         // draw again at new position
         draw();
+        drawARECTANGLE();
       }
     
      /**
@@ -136,5 +141,11 @@ public class BoxBall
     public int getYPosition()
     {
         return yPosition;
+    }
+    
+     private void drawARECTANGLE()
+    {
+        Shape rectangle = (new Rectangle2D.Double(leftWall, topWall, rightWall, bottomWall));
+        canvas.draw(rectangle);
     }
 }

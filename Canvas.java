@@ -309,7 +309,6 @@ public class Canvas
      */
     public Dimension getSize()
     {
-        
         return canvas.getSize();
     }
 
