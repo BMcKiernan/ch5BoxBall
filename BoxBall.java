@@ -22,8 +22,8 @@ public class BoxBall
     private final int leftWall;
     private final int rightWall;
     private Canvas canvas;
-    private double ySpeed;
-    private double xSpeed;
+    private int ySpeed;
+    private int xSpeed;
     private Random ballSpeed = new Random();
     private Random speedNegOrPos = new Random();
     private boolean negative;
@@ -61,22 +61,23 @@ public class BoxBall
     
     private void randomSpeed()
     {
-        int speed=0;
+        int speed;
         int posNeg;
         posNeg = speedNegOrPos.nextInt(2);
         if(posNeg==1)
         {
-            speed -= ballSpeed.nextInt(7)+1;
+            speed = ballSpeed.nextInt(7)+1;
             negative=true;
+            xSpeed += (-speed);
+            ySpeed += (-speed);
         }
         else
         {
-            speed += ballSpeed.nextInt(7)+1;
+            speed = ballSpeed.nextInt(7)+1;
             positive=true;
+            xSpeed+=speed;
+            ySpeed+=speed;
         }
-          
-        xSpeed=speed;
-        ySpeed=speed;
     }
     
     /**
@@ -96,8 +97,7 @@ public class BoxBall
         // remove from canvas at the current position
         erase();
         // compute new position
-        if(positive==true)
-        {
+        
             yPosition += ySpeed;
             xPosition += xSpeed;
             // check if it has hit the ground
@@ -117,30 +117,7 @@ public class BoxBall
             if (yPosition > bottomWall-diameter ) {
                 ySpeed = -ySpeed;
             }
-        }
-        
-        if(negative==true)
-        {
-            yPosition -= ySpeed;
-            xPosition -= xSpeed;
-            // check if it has hit the ground
             
-             if (xPosition < leftWall) {
-                xSpeed = +xSpeed;
-            }
-            
-            if (xPosition > rightWall-diameter) {
-                xSpeed = +xSpeed;
-            }
-            
-            if (yPosition < topWall) {
-                ySpeed = +ySpeed;
-            }
-            
-            if (yPosition > bottomWall-diameter ) {
-                ySpeed = +ySpeed;
-            }
-        }
         // draw again at new position
         draw();
       }

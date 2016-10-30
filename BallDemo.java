@@ -22,18 +22,18 @@ public class BallDemo
     private Rectangle2D damnRectangle;
     private Graphics2D graphic;
     private ArrayList<BoxBall> balls = new ArrayList<BoxBall>();
-    private Random randomSize = new Random();
+    
     private Random randomLocation = new Random();
-    private Shape rectangle;
     private Random randomColor = new Random();
+    
     
     
     public void setCanvasBeforeBoxBounce(int width, int height)
     {
         myCanvas = new Canvas("Box Bounce",width,height,Color.white);
+        drawARECTANGLE();
     }
-    
-    
+   
     
     public void boxBounce(){
         if(myCanvas==null)
@@ -43,56 +43,71 @@ public class BallDemo
         else
             {
         
-            drawARECTANGLE();
-             Dimension size = myCanvas.getSize();
+            
+            Dimension size = myCanvas.getSize();
             int width = size.width;
-            width -= 10;
             int height = size.height; 
+            width -= 10;
             height -= 10;
-            for(int i= 0; i<6;i++)
+            int colorIndex = 1;
+            
+            for(int i= 1; i<6; i++)
             {
-                int colorIndex =  randomColor.nextInt(5);
-                int ballSize = randomSize.nextInt(5)+6;
-                int locationX = randomLocation.nextInt(width)+1;
-                int locationY = randomLocation.nextInt(height)+1;
+                
+                int locationX;
+                int locationY;
+                Dimension sizeForLocation = myCanvas.getSize();
+                int randomXLocation =  sizeForLocation.width;
+                int randomYLocation = sizeForLocation.height;
+                randomXLocation-=20;
+                randomYLocation-=20;
+                locationX = randomLocation.nextInt(randomXLocation)+1;
+                locationY = randomLocation.nextInt(randomYLocation)+1;
+                
                 if(colorIndex==1)
                 {
-                     balls.add(new BoxBall(ballSize, locationX, locationY, width, height, Color.orange, myCanvas));
-                    
+                     balls.add(new BoxBall(locationX, locationY, 10, width, height, Color.orange, myCanvas));
                 }
                 else if(colorIndex==2)
                 {
-                    balls.add(new BoxBall(ballSize, locationX, locationY, width, height, Color.blue, myCanvas));
+                     balls.add(new BoxBall(locationX, locationY, 10, width, height, Color.blue, myCanvas));
                 }
                 else if(colorIndex==3)
                 {
-                    balls.add(new BoxBall(ballSize, locationX, locationY, width, height, Color.green, myCanvas));
-                    
+                     balls.add(new BoxBall(locationX, locationY, 10, width, height, Color.green, myCanvas));
                 }
                 else if(colorIndex==4)
                 {
-                    balls.add(new BoxBall(ballSize, locationX, locationY, width, height, Color.magenta, myCanvas));
-                    
+                     balls.add(new BoxBall(locationX, locationY, 10, width, height, Color.magenta, myCanvas));
                 }
                 else
                 {
-                    balls.add(new BoxBall(ballSize, locationX, locationY, width, height, Color.red, myCanvas));
+                     balls.add(new BoxBall(locationX, locationY, 10, width, height, Color.red, myCanvas));
                 }
+                colorIndex++;
              }
-            
+             
+             for(int indexx = 0; indexx<balls.size(); indexx++)
+             {
+                BoxBall ball=null;
+                ball = balls.get(indexx);
+                ball.draw();
+            }
              //Need to configure a way to get balls array to ball.draw() for each element in the ArrayList; Cannot find symbol. Need to create and enable scope to reach while(true)
-             //ball.move loop
            
-          
-                      
-           
-           
-        while(true){
-           myCanvas.wait(25);
-          // ball.move();
-           drawARECTANGLE();
+             while(true){
+                 myCanvas.wait(25);
+                 for(int index = 0; index<balls.size(); index++)
+                 {
+                    BoxBall ball = null;
+                    ball = balls.get(index);
+                    ball.move();
+                    
+                    drawARECTANGLE();
+                }
+                
+            }
         }
-             }
     }
     
     private void drawARECTANGLE()
@@ -104,7 +119,7 @@ public class BallDemo
         double heightToBeFixed = size.height;
         double width = widthToBeFixed-10.00;
         double height = heightToBeFixed-10.00;
-        rectangle = (new Rectangle2D.Double(x, y, width, height));
+        Shape rectangle = (new Rectangle2D.Double(x, y, width, height));
         myCanvas.draw(rectangle);
     }
     
