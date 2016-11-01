@@ -48,11 +48,11 @@ public class BallDemo
             Dimension size = myCanvas.getSize();
             int width = size.width;
             int height = size.height; 
-            width -= 4;
-            height -= 4;
+            width -= 10;
+            height -= 10;
             int colorIndex = 1;
             
-            for(int i= 1; i<101; i++)
+            for(int i= 1; i<16; i++)
             {
                 int r = randomColor.nextInt(255)+1;
                 int g = randomColor.nextInt(255)+1;
@@ -64,20 +64,20 @@ public class BallDemo
                     
                     if(n==0)
                     {
-                            r = r/2;
-                            g = g/2;
+                            r = r/7;
+                            g = g/7;
                     }
                     
                     if(n==1)
                     {
-                        g = g/2;
-                        b = b/2;
+                        g = g/7;
+                        b = b/7;
                     }
                         
                     if(n==2)
                         {
-                            b = b/2;
-                            r = r/2;
+                            b = b/7;
+                            r = r/7;
                             
                         }
                     }
@@ -90,10 +90,10 @@ public class BallDemo
                 int randomXLocation =  sizeForLocation.width;
                 int randomYLocation = sizeForLocation.height;
                 int ballSize = randomSize.nextInt(24)+10;
-                randomXLocation-=(4+ballSize);
-                randomYLocation-=(4+ballSize);
-                locationX = randomLocation.nextInt(randomXLocation)+2;
-                locationY = randomLocation.nextInt(randomYLocation)+2;
+                randomXLocation-=(10+ballSize);
+                randomYLocation-=(10+ballSize);
+                locationX = randomLocation.nextInt(randomXLocation)+5;
+                locationY = randomLocation.nextInt(randomYLocation)+5;
                 
                 
                 balls.add(new BoxBall(locationX, locationY, ballSize, width, height, colorSet, myCanvas));
@@ -109,16 +109,15 @@ public class BallDemo
              //Need to configure a way to get balls array to ball.draw() for each element in the ArrayList; Cannot find symbol. Need to create and enable scope to reach while(true)
            
              while(true){
-                 myCanvas.wait(10);
+                 myCanvas.wait(30);
+                 drawARECTANGLE();
                  for(int index = 0; index<balls.size(); index++)
                  {
-                    BoxBall ball = null;
+                    BoxBall ball;
                     ball = balls.get(index);
                     ball.move();
-                    
-                    drawARECTANGLE();
                 }
-                drawARECTANGLE();
+                
             }
         }
     }
@@ -126,12 +125,12 @@ public class BallDemo
     private void drawARECTANGLE()
     {
         Dimension size = myCanvas.getSize();
-        double x = 2;
-        double y = 2;
+        double x = 5;
+        double y = 5;
         double widthToBeFixed = size.width;
         double heightToBeFixed = size.height;
-        double width = widthToBeFixed-4.00;
-        double height = heightToBeFixed-4.00;
+        double width = widthToBeFixed-10.00;
+        double height = heightToBeFixed-10.00;
         Shape rectangle = (new Rectangle2D.Double(x, y, width, height));
         myCanvas.draw(rectangle);
     }

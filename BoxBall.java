@@ -40,10 +40,10 @@ public class BoxBall
        
        yPosition = yPos;
        
-       leftWall = 2;
+       leftWall = 5;
        rightWall = width;
        bottomWall = height;
-       topWall = 2;
+       topWall = 5;
        color = ballColor;
        canvas = drawingCanvas;
        negative = false;
