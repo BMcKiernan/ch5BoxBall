@@ -6,8 +6,8 @@ import java.awt.geom.Rectangle2D;
 /**
  * Write a description of class BoxBall here.
  * 
- * @author (your name) 
- * @version (a version number or a date)
+ * @author Brian McKiernan 
+ * @version 11/6/2016
  */
 public class BoxBall
 {
@@ -31,15 +31,16 @@ public class BoxBall
    
 
     /**
-     * Constructor for objects of class BoxBall
+     * Constuctor for Boxball
+     * @param topwall must match y value from BallDemo class.
+     * @param leftwall must match x value from BallDemo class.
+     * After the constructor sets the necessary parameters the constructor calls the randomSpeed() method to assign both a random speed and a positive or negative value.
      */
     public BoxBall(int xPos, int yPos, int ballDiameter, int width, int height, Color ballColor, Canvas drawingCanvas)
     {
        diameter = ballDiameter;
        xPosition = xPos;
-       
        yPosition = yPos;
-       
        leftWall = 5;
        rightWall = width;
        bottomWall = height;
@@ -49,10 +50,7 @@ public class BoxBall
        negative = false;
        positive = false;
        randomSpeed();
-
     }
-    
-    
     
     /**
      * Draw this ball at its current position onto the canvas.
@@ -63,24 +61,50 @@ public class BoxBall
         canvas.fillCircle(xPosition, yPosition, diameter);
     }
     
+    /**
+     * randomSpeed Method randomly generates a speed from -7 to 7 not including 0 and also randomly assigns the speed as positive or negative. This way both variables don't have to 
+     * have the same speed or direction.
+     */
     private void randomSpeed()
     {
         int speed;
         int posNeg;
-        posNeg = speedNegOrPos.nextInt(2);
-        if(posNeg==1)
-        {
-            speed = ballSpeed.nextInt(7)+1;
-            negative=true;
-            xSpeed += (-speed);
-            ySpeed += (-speed);
-        }
-        else
-        {
-            speed = ballSpeed.nextInt(7)+1;
-            positive=true;
-            xSpeed+=speed;
-            ySpeed+=speed;
+        int finished=0;
+        while (finished<2){
+            //Assign positive or negative to x.
+             if (finished==0){
+                posNeg = speedNegOrPos.nextInt(2);
+                speed = ballSpeed.nextInt(7)+1;
+                if (posNeg == 1)
+                {
+                    negative=true;
+                    xSpeed += (-speed);
+                    finished++;
+                }
+                else
+                {
+                    positive = true;
+                    xSpeed += speed;
+                    finished++;
+                }   
+            }  
+            //Assign positive or negative to y.
+             if (finished==1){
+                posNeg = speedNegOrPos.nextInt(2);
+                speed = ballSpeed.nextInt(7)+1;
+                if (posNeg == 1)
+                {
+                    negative = true;
+                    ySpeed += (-speed);
+                    finished++;
+                }
+                else
+                {
+                    positive = true;
+                    ySpeed += speed;
+                    finished++;
+                }   
+            }
         }
     }
     
@@ -95,16 +119,15 @@ public class BoxBall
     /**
      * Move this ball according to its position and speed and redraw.
      **/
-   public void move()
-   {
+     public void move()
+     {
     
-        // remove from canvas at the current position
-        erase();
-        // compute new position
-        
+            // remove from canvas at the current position
+            erase();
+            // compute new position
             yPosition += ySpeed;
             xPosition += xSpeed;
-            // check if it has hit the ground
+            
             
              if (xPosition < leftWall) {
                 xSpeed = -xSpeed;
@@ -122,9 +145,9 @@ public class BoxBall
                 ySpeed = -ySpeed;
             }
             
-        // draw again at new position
-        draw();
-        drawARECTANGLE();
+            // draw again at new position
+            draw();
+            drawARECTANGLE();
       }
     
      /**
@@ -143,6 +166,9 @@ public class BoxBall
         return yPosition;
     }
     
+    /**
+     * Method to redraw a rectangle after ball movements are drawn and the rectangle gets chipped away at. This method is called from the move method.
+     */
      private void drawARECTANGLE()
     {
         Shape rectangle = (new Rectangle2D.Double(leftWall, topWall, rightWall, bottomWall));
