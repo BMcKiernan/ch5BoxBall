@@ -28,7 +28,6 @@ public class BallDemo
     private Random randomColor = new Random();
     private Random randomSize = new Random();
     
-    
     /**
      * This method intitializes the canvas and also draws a rectangle with all of its walls five 
      * integers less then the dimension of the canvas.
