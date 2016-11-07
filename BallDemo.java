@@ -11,7 +11,8 @@ import java.util.Random;
  *
  * @author Bill Crosbie
  * @version 2015-March-BB
- *
+ * @contributor Brian McKiernan
+ * @11/6/2016
  * @author Michael Kölling and David J. Barnes
  * @version 2011.07.31
  */
@@ -28,14 +29,21 @@ public class BallDemo
     private Random randomSize = new Random();
     
     
-    
+    /**
+     * This method intitializes the canvas and also draws a rectangle with all of its walls five 
+     * integers less then the dimension of the canvas.
+     */
     public void setCanvasBeforeBoxBounce(int width, int height)
     {
         myCanvas = new Canvas("Box Bounce",width,height,Color.white);
         drawARECTANGLE();
     }
    
-    
+    /**
+     * This is where the magic happens. boxBounce randomly assigns sixteen different balls color within a 
+     * certain range to avoid transparent colors, it randomly assigns the diameter of the balls and their
+     * location within the size of the rectangle that is srawn within the canvas. 
+     */
     public void boxBounce(){
         if(myCanvas==null)
         {
@@ -43,29 +51,39 @@ public class BallDemo
         }
         else
             {
-        
+            /*
+             * The code within the for loop does everything from randomly assigning color within a 
+             * range to initializing the balls adding them to the array and setting their location
+             * within the rectangle.
+             */
             
-            Dimension size = myCanvas.getSize();
-            int width = size.width;
-            int height = size.height; 
-            width -= 10;
-            height -= 10;
             int colorIndex = 1;
-            
             for(int i= 1; i<16; i++)
             {
+                //Randomly assigns red, green, blue colors in the range of 0 to 255. 
                 int r = randomColor.nextInt(255)+1;
                 int g = randomColor.nextInt(255)+1;
                 int b = randomColor.nextInt(255)+1;
                 Random randomRgb = new Random();
+                
+                /*
+                 * This conditional statement checks to see if the combined color color values for red
+                 * green and blue exceeds 425 because as this value gets higher the balls become more 
+                 * transparent.
+                 */
+                
                 if((r+g+b)>425)
                 {
+                   /*
+                    * The random number generate chooses a random combination of two of the rgb colors
+                    * and divides their value by 7 so that the value is decreased distinguishing
+                    * a single colors and minmizing the transparency.
+                    */
                     int n = randomRgb.nextInt(3);
-                    
                     if(n==0)
                     {
-                            r = r/7;
-                            g = g/7;
+                        r = r/7;
+                        g = g/7;
                     }
                     
                     if(n==1)
@@ -75,53 +93,70 @@ public class BallDemo
                     }
                         
                     if(n==2)
-                        {
-                            b = b/7;
-                            r = r/7;
+                    {
+                        b = b/7;
+                        r = r/7;
                             
-                        }
                     }
+                }
                     
                 Color colorSet = new Color(r,g,b);
+                //Gets the size of the rectangle to draw the rectangle within.
+                Dimension size = myCanvas.getSize();
+                int width = size.width;
+                int height = size.height; 
+                
+                width -= 10;
+                height -= 10;
                 
                 int locationX;
                 int locationY;
-                Dimension sizeForLocation = myCanvas.getSize();
-                int randomXLocation =  sizeForLocation.width;
-                int randomYLocation = sizeForLocation.height;
-                int ballSize = randomSize.nextInt(24)+10;
+                
+                int randomXLocation =  size.width;
+                int randomYLocation = size.height;
+                
+                //creates balls with a random diameter from 12 to 35.
+                int ballSize = randomSize.nextInt(24)+12;
+                
                 randomXLocation-=(10+ballSize);
                 randomYLocation-=(10+ballSize);
+                //The next line randomly assigns an x location to the ball starting at a minimum x
+                //positin of 5 so the ball does not get trapped outside the leftwall of the rectangle.
                 locationX = randomLocation.nextInt(randomXLocation)+5;
+                //The next line randomly assigns a y location to the ball starting at a minimum y
+                //position of 5 so the ball does not get trapped outside the topwall of the rectangle.
                 locationY = randomLocation.nextInt(randomYLocation)+5;
-                
-                
+                //Adds the balls to the balls array one at a time.
                 balls.add(new BoxBall(locationX, locationY, ballSize, width, height, colorSet, myCanvas));
-               
             }
-             
+            //Draws the balls initial placement.
              for(int indexx = 0; indexx<balls.size(); indexx++)
              {
                 BoxBall ball=null;
                 ball = balls.get(indexx);
                 ball.draw();
             }
-             //Need to configure a way to get balls array to ball.draw() for each element in the ArrayList; Cannot find symbol. Need to create and enable scope to reach while(true)
-           
+            /*
+             * This whil loop controls the movement of the boxballs by redrawing them from the array
+             * calling the move method from BoxBall and redrawing the rectangle. Creates the illusion of
+             * movement.
+             */
              while(true){
-                 myCanvas.wait(30);
-                 drawARECTANGLE();
+                 myCanvas.wait(25);
                  for(int index = 0; index<balls.size(); index++)
                  {
                     BoxBall ball;
                     ball = balls.get(index);
                     ball.move();
                 }
-                
             }
         }
     }
     
+    /**
+     * This method draws a rectangle that receives the dimensions of the canvas and then sets the walls
+     * of the rectangle to be five less than the dimensions of the canvas.
+     */
     private void drawARECTANGLE()
     {
         Dimension size = myCanvas.getSize();
